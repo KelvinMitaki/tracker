@@ -6,9 +6,11 @@ import Spacer from "../components/Spacer";
 
 const SignUpScreen: NavigationStackScreenComponent = ({ navigation }) => {
   return (
-    <View>
+    <View style={styles.view}>
       <Spacer>
-        <Text h4>Sign Up For A Tracker</Text>
+        <Text h4 style={styles.heading}>
+          Sign Up For A Tracker
+        </Text>
       </Spacer>
       <Input label="Email" />
       <Input label="Password" />
@@ -22,6 +24,18 @@ const SignUpScreen: NavigationStackScreenComponent = ({ navigation }) => {
   );
 };
 
+SignUpScreen.navigationOptions = { header: () => null };
+
 export default SignUpScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  view: {
+    flex: 1,
+    justifyContent: "center",
+    marginBottom: 150
+  },
+  heading: {
+    marginBottom: 30,
+    alignSelf: "center"
+  }
+});
