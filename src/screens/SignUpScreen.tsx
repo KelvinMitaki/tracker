@@ -7,35 +7,25 @@ import Spacer from "../components/Spacer";
 import {
   Context as AuthContext,
   SigninAction,
-  SignupAction
+  SignupAction,
+  AuthState
 } from "../context/AuthContext";
 
 interface Ctx {
-  signup: (values: SignupAction["payload"]) => void;
-  signin: (values: SigninAction["payload"]) => void;
-  signout: () => void;
-  state: {};
+  signup: (values: SignupAction["payload"]) => Promise<void>;
+  signin: (values: SigninAction["payload"]) => Promise<void>;
+  signout: () => Promise<void>;
+  state: AuthState;
 }
 
 const SignUpScreen: NavigationStackScreenComponent = ({ navigation }) => {
-  // useEffect(() => {
-  //   const test = async () => {
-  //     try {
-  //       const {
-  //         data
-  //       } = await axios.post("https://www.way4biz.com/api/products", {
-  //         itemsToSkip: 0
-  //       });
-  //       console.log(data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   test();
-  // }, []);
-  const { signup } = useContext(AuthContext) as Ctx;
+  const {
+    signup,
+    state: { registerError }
+  } = useContext(AuthContext) as Ctx;
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   return (
     <View style={styles.view}>
       <Spacer>
@@ -57,16 +47,21 @@ const SignUpScreen: NavigationStackScreenComponent = ({ navigation }) => {
         autoCapitalize="none"
         autoCorrect={false}
         secureTextEntry
+        errorMessage={registerError}
+        errorStyle={{ fontSize: 17 }}
       />
       <Spacer>
         <Button
           title="Sign Up"
-          onPress={() => {
+          onPress={async () => {
             if (email.trim().length !== 0 && password.trim().length !== 0) {
-              signup({ email, password });
+              setLoading(true);
+              await signup({ email, password });
+              setLoading(false);
             }
             //  navigation.navigate("mainFlow")
           }}
+          loading={loading}
         />
       </Spacer>
     </View>
