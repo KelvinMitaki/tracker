@@ -74,8 +74,9 @@ const signup = (
   >;
   setLoading: (value: React.SetStateAction<boolean>) => void;
 }) => {
+  const { email, password, navigation, setLoading } = data!;
   try {
-    const { email, password, navigation, setLoading } = data!;
+    setLoading(true);
     const res = await axios.post(`/signup`, { email, password });
     const token = res.data.token;
     await AsyncStorage.setItem("token", token);
@@ -83,6 +84,7 @@ const signup = (
     setLoading(false);
     navigation.navigate("mainFlow");
   } catch (error) {
+    setLoading(false);
     dispatch({ type: "registerError", payload: error.response.data.message });
   }
 };
@@ -97,16 +99,17 @@ const signin = (
   >;
   setLoading: (value: React.SetStateAction<boolean>) => void;
 }) => {
+  const { email, password, navigation, setLoading } = data!;
   try {
-    const { email, password, navigation, setLoading } = data!;
+    setLoading(true);
     const res = await axios.post(`/signin`, { email, password });
     const token = res.data.token;
-    setLoading(true);
     await AsyncStorage.setItem("token", token);
     dispatch({ type: "signin", payload: token });
     setLoading(false);
     navigation.navigate("mainFlow");
   } catch (error) {
+    setLoading(false);
     dispatch({ type: "loginError", payload: error.response.data.message });
   }
 };

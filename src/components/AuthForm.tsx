@@ -74,6 +74,7 @@ const AuthForm: React.FC<Props & NavigationInjectedProps> = props => {
             }
           }}
           loading={loading}
+          disabled={loading}
         />
       </Spacer>
       <Spacer>
