@@ -1,10 +1,39 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Input, Text } from "react-native-elements";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 import Spacer from "../components/Spacer";
+import {
+  Context as AuthContext,
+  SigninAction,
+  SignupAction
+} from "../context/AuthContext";
+
+interface Ctx {
+  signup: (values: SignupAction["payload"]) => void;
+  signin: (values: SigninAction["payload"]) => void;
+  signout: () => void;
+  state: {};
+}
 
 const SignUpScreen: NavigationStackScreenComponent = ({ navigation }) => {
+  // useEffect(() => {
+  //   const test = async () => {
+  //     try {
+  //       const {
+  //         data
+  //       } = await axios.post("https://www.way4biz.com/api/products", {
+  //         itemsToSkip: 0
+  //       });
+  //       console.log(data);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   test();
+  // }, []);
+  const { signup } = useContext(AuthContext) as Ctx;
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   return (
@@ -32,7 +61,12 @@ const SignUpScreen: NavigationStackScreenComponent = ({ navigation }) => {
       <Spacer>
         <Button
           title="Sign Up"
-          //    onPress={() => navigation.navigate("mainFlow")}
+          onPress={() => {
+            if (email.trim().length !== 0 && password.trim().length !== 0) {
+              signup({ email, password });
+            }
+            //  navigation.navigate("mainFlow")
+          }}
         />
       </Spacer>
     </View>

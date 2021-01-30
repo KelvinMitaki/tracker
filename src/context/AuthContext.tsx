@@ -1,3 +1,4 @@
+import axios from "../axios/axios";
 import createDataContext from "./createDataContext";
 
 interface State {}
@@ -6,15 +7,15 @@ interface DefaultAction {
   type: "";
   payload?: any;
 }
-interface SignupAction {
+export interface SignupAction {
   type: "signup";
   payload: { email: string; password: string };
 }
-interface SigninAction {
+export interface SigninAction {
   type: "signin";
   payload: { email: string; password: string };
 }
-interface SignoutAction {
+export interface SignoutAction {
   type: "signout";
 }
 
@@ -27,9 +28,17 @@ const reducer = (state: State, action: Action) => {
   }
 };
 
-const signup = (dispatch: React.Dispatch<SignupAction>) => (
+const signup = (dispatch: React.Dispatch<SignupAction>) => async (
   data: SignupAction["payload"]
-) => {};
+) => {
+  try {
+    const { email, password } = data;
+    const res = await axios.post(`/signup`, { email, password });
+    console.log(res);
+  } catch (error) {
+    console.log(error);
+  }
+};
 const signin = (dispatch: React.Dispatch<SigninAction>) => (
   data: SigninAction["payload"]
 ) => {};
