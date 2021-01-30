@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "../axios/axios";
 import createDataContext from "./createDataContext";
 
@@ -43,7 +44,7 @@ const signup = (
   try {
     const { email, password } = data!;
     const res = await axios.post(`/signup`, { email, password });
-    console.log(res);
+    AsyncStorage.setItem("token", res.data.token);
   } catch (error) {
     dispatch({ type: "registerError", payload: error.response.data.message });
   }
