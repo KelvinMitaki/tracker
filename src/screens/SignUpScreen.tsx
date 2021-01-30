@@ -3,69 +3,53 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Input, Text } from "react-native-elements";
-import { NavigationStackScreenComponent } from "react-navigation-stack";
-import Spacer from "../components/Spacer";
 import {
-  Context as AuthContext,
-  SigninAction,
-  SignupAction,
-  AuthState
-} from "../context/AuthContext";
+  NavigationParams,
+  NavigationRoute,
+  NavigationScreenProp
+} from "react-navigation";
+import { NavigationStackScreenComponent } from "react-navigation-stack";
+import { StackNavigationProp } from "react-navigation-stack/lib/typescript/src/vendor/types";
+import AuthForm from "../components/AuthForm";
+import Spacer from "../components/Spacer";
+import { Context as AuthContext, AuthState } from "../context/AuthContext";
 
 interface Ctx {
-  signup: (values: { email: string; password: string }) => Promise<void>;
-  signin: (values: { email: string; password: string }) => Promise<void>;
+  signup: (values: {
+    email: string;
+    password: string;
+    navigation: NavigationScreenProp<
+      NavigationRoute<NavigationParams>,
+      NavigationParams
+    >;
+  }) => Promise<void>;
+  signin: (values: {
+    email: string;
+    password: string;
+    navigation: NavigationScreenProp<
+      NavigationRoute<NavigationParams>,
+      NavigationParams
+    >;
+  }) => Promise<void>;
   signout: () => Promise<void>;
   state: AuthState;
 }
 
-const SignUpScreen: NavigationStackScreenComponent = ({ navigation }) => {
+const SignUpScreen: NavigationStackScreenComponent = () => {
   const {
     signup,
     state: { registerError }
   } = useContext(AuthContext) as Ctx;
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
+
   return (
-    <View style={styles.view}>
-      <Spacer>
-        <Text h4 style={styles.heading}>
-          Sign Up For A Tracker
-        </Text>
-      </Spacer>
-      <Input
-        label="Email"
-        onChangeText={setEmail}
-        value={email}
-        autoCapitalize="none"
-        autoCorrect={false}
-      />
-      <Input
-        label="Password"
-        onChangeText={setPassword}
-        value={password}
-        autoCapitalize="none"
-        autoCorrect={false}
-        secureTextEntry
-        errorMessage={registerError}
-        errorStyle={{ fontSize: 17 }}
-      />
-      <Spacer>
-        <Button
-          title="Sign Up"
-          onPress={async () => {
-            if (email.trim().length !== 0 && password.trim().length !== 0) {
-              setLoading(true);
-              await signup({ email, password });
-              setLoading(false);
-            }
-            //  navigation.navigate("mainFlow")
-          }}
-          loading={loading}
-        />
-      </Spacer>
-    </View>
+    <AuthForm
+      btnTitle="Sign Up"
+      redirectBtnTitle="Already have an account? Go to sign in"
+      redirectRoute="Signin"
+      heading="Sing Up For A Tracker"
+      errorMessage={registerError}
+      login={signup}
+    />
   );
 };
 

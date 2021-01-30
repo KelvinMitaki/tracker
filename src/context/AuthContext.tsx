@@ -1,4 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { NavigationParams, NavigationRoute } from "react-navigation";
+import { StackNavigationProp } from "react-navigation-stack/lib/typescript/src/vendor/types";
 import axios from "../axios/axios";
 import createDataContext from "./createDataContext";
 
@@ -43,13 +45,21 @@ const reducer = (state: AuthState, action: Action): AuthState => {
 
 const signup = (
   dispatch: React.Dispatch<SignupAction | Error<"registerError">>
-) => async (data: { email: string; password: string }) => {
+) => async (data: {
+  email: string;
+  password: string;
+  navigation: StackNavigationProp<
+    NavigationRoute<NavigationParams>,
+    NavigationParams
+  >;
+}) => {
   try {
-    const { email, password } = data!;
+    const { email, password, navigation } = data!;
     const res = await axios.post(`/signup`, { email, password });
     const token = res.data.token;
     await AsyncStorage.setItem("token", token);
     dispatch({ type: "signup", payload: token });
+    navigation.navigate("mainFlow");
   } catch (error) {
     dispatch({ type: "registerError", payload: error.response.data.message });
   }
