@@ -33,7 +33,7 @@ type Action = DefaultAction | SignupAction | Error<"registerError">;
 const reducer = (state: AuthState, action: Action): AuthState => {
   switch (action.type) {
     case "signup":
-      return { ...state, token: action.payload as string };
+      return { ...state, token: action.payload as string, registerError: "" };
     case "registerError":
       return { ...state, registerError: action.payload };
     default:
@@ -54,9 +54,10 @@ const signup = (
     dispatch({ type: "registerError", payload: error.response.data.message });
   }
 };
-const signin = (dispatch: React.Dispatch<SigninAction>) => (
-  data: SigninAction["payload"]
-) => {};
+const signin = (dispatch: React.Dispatch<SigninAction>) => (data: {
+  email: string;
+  password: string;
+}) => {};
 const signout = (dispatch: React.Dispatch<SignoutAction>) => () => {};
 
 export const { Context, Provider } = createDataContext<AuthState>(

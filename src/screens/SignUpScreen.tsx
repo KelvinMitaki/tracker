@@ -13,8 +13,8 @@ import {
 } from "../context/AuthContext";
 
 interface Ctx {
-  signup: (values: SignupAction["payload"]) => Promise<void>;
-  signin: (values: SigninAction["payload"]) => Promise<void>;
+  signup: (values: { email: string; password: string }) => Promise<void>;
+  signin: (values: { email: string; password: string }) => Promise<void>;
   signout: () => Promise<void>;
   state: AuthState;
 }
