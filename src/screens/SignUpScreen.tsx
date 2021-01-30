@@ -14,7 +14,7 @@ import AuthForm from "../components/AuthForm";
 import Spacer from "../components/Spacer";
 import { Context as AuthContext, AuthState } from "../context/AuthContext";
 
-interface Ctx {
+export interface AuthCtx {
   signup: (values: {
     email: string;
     password: string;
@@ -39,7 +39,7 @@ const SignUpScreen: NavigationStackScreenComponent = () => {
   const {
     signup,
     state: { registerError }
-  } = useContext(AuthContext) as Ctx;
+  } = useContext(AuthContext) as AuthCtx;
 
   return (
     <AuthForm

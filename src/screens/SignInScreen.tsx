@@ -1,11 +1,24 @@
-import React from "react";
+import React, { useContext } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import AuthForm from "../components/AuthForm";
+import { Context as AuthContext } from "../context/AuthContext";
+import { AuthCtx } from "./SignUpScreen";
 
 const SignInScreen = () => {
+  const {
+    signin,
+    state: { registerError }
+  } = useContext(AuthContext) as AuthCtx;
+
   return (
-    <View>
-      <Text>SignInScreen SignInScreen</Text>
-    </View>
+    <AuthForm
+      btnTitle="Sign In"
+      redirectBtnTitle="Don't have an account? Go to sign up"
+      redirectRoute="Signup"
+      heading="Sing In"
+      errorMessage={registerError}
+      login={signin}
+    />
   );
 };
 
