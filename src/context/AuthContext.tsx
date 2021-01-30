@@ -4,6 +4,7 @@ import createDataContext from "./createDataContext";
 
 export interface AuthState {
   registerError: string;
+  token: string | null;
 }
 
 interface DefaultAction {
@@ -12,11 +13,11 @@ interface DefaultAction {
 }
 export interface SignupAction {
   type: "signup";
-  payload?: { email: string; password: string };
+  payload: string;
 }
 export interface SigninAction {
   type: "signin";
-  payload?: { email: string; password: string };
+  payload: string;
 }
 export interface SignoutAction {
   type: "signout";
@@ -31,6 +32,8 @@ type Action = DefaultAction | SignupAction | Error<"registerError">;
 
 const reducer = (state: AuthState, action: Action): AuthState => {
   switch (action.type) {
+    case "signup":
+      return { ...state, token: action.payload as string };
     case "registerError":
       return { ...state, registerError: action.payload };
     default:
@@ -40,11 +43,13 @@ const reducer = (state: AuthState, action: Action): AuthState => {
 
 const signup = (
   dispatch: React.Dispatch<SignupAction | Error<"registerError">>
-) => async (data: SignupAction["payload"]) => {
+) => async (data: { email: string; password: string }) => {
   try {
     const { email, password } = data!;
     const res = await axios.post(`/signup`, { email, password });
-    AsyncStorage.setItem("token", res.data.token);
+    const token = res.data.token;
+    await AsyncStorage.setItem("token", token);
+    dispatch({ type: "signup", payload: token });
   } catch (error) {
     dispatch({ type: "registerError", payload: error.response.data.message });
   }
@@ -54,8 +59,8 @@ const signin = (dispatch: React.Dispatch<SigninAction>) => (
 ) => {};
 const signout = (dispatch: React.Dispatch<SignoutAction>) => () => {};
 
-export const { Context, Provider } = createDataContext(
+export const { Context, Provider } = createDataContext<AuthState>(
   reducer,
   { signup, signin, signout },
-  { isSignedIn: false, registerError: "" }
+  { token: null, registerError: "" }
 );
