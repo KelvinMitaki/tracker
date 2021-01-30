@@ -6,6 +6,7 @@ import createDataContext from "./createDataContext";
 
 export interface AuthState {
   registerError: string;
+  loginError: string;
   token: string | null;
 }
 
@@ -30,14 +31,33 @@ export interface Error<T> {
   payload: string;
 }
 
-type Action = DefaultAction | SignupAction | Error<"registerError">;
+type Action =
+  | DefaultAction
+  | SignupAction
+  | SigninAction
+  | Error<"registerError">
+  | Error<"loginError">;
 
 const reducer = (state: AuthState, action: Action): AuthState => {
   switch (action.type) {
     case "signup":
-      return { ...state, token: action.payload as string, registerError: "" };
+      return {
+        ...state,
+        token: action.payload as string,
+        registerError: "",
+        loginError: ""
+      };
+    case "signin":
+      return {
+        ...state,
+        token: action.payload,
+        loginError: "",
+        registerError: ""
+      };
     case "registerError":
       return { ...state, registerError: action.payload };
+    case "loginError":
+      return { ...state, loginError: action.payload };
     default:
       return state;
   }
@@ -64,14 +84,31 @@ const signup = (
     dispatch({ type: "registerError", payload: error.response.data.message });
   }
 };
-const signin = (dispatch: React.Dispatch<SigninAction>) => (data: {
+const signin = (
+  dispatch: React.Dispatch<SigninAction | Error<"loginError">>
+) => async (data: {
   email: string;
   password: string;
-}) => {};
+  navigation: StackNavigationProp<
+    NavigationRoute<NavigationParams>,
+    NavigationParams
+  >;
+}) => {
+  try {
+    const { email, password, navigation } = data!;
+    const res = await axios.post(`/signin`, { email, password });
+    const token = res.data.token;
+    await AsyncStorage.setItem("token", token);
+    dispatch({ type: "signin", payload: token });
+    navigation.navigate("mainFlow");
+  } catch (error) {
+    dispatch({ type: "loginError", payload: error.response.data.message });
+  }
+};
 const signout = (dispatch: React.Dispatch<SignoutAction>) => () => {};
 
 export const { Context, Provider } = createDataContext<AuthState>(
   reducer,
   { signup, signin, signout },
-  { token: null, registerError: "" }
+  { token: null, registerError: "", loginError: "" }
 );

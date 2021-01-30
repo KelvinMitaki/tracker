@@ -7,7 +7,7 @@ import { AuthCtx } from "./SignUpScreen";
 const SignInScreen = () => {
   const {
     signin,
-    state: { registerError }
+    state: { loginError }
   } = useContext(AuthContext) as AuthCtx;
 
   return (
@@ -16,7 +16,7 @@ const SignInScreen = () => {
       redirectBtnTitle="Don't have an account? Go to sign up"
       redirectRoute="Signup"
       heading="Sing In"
-      errorMessage={registerError}
+      errorMessage={loginError}
       login={signin}
     />
   );
