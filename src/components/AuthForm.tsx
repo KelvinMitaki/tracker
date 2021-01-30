@@ -20,6 +20,7 @@ interface Props {
       NavigationRoute<NavigationParams>,
       NavigationParams
     >;
+    setLoading: (value: React.SetStateAction<boolean>) => void;
   }) => Promise<void>;
   redirectRoute: string;
   redirectBtnTitle: string;
@@ -69,9 +70,7 @@ const AuthForm: React.FC<Props & NavigationInjectedProps> = props => {
           title={btnTitle}
           onPress={async () => {
             if (email.trim().length !== 0 && password.trim().length !== 0) {
-              setLoading(true);
-              await login({ email, password, navigation });
-              setLoading(false);
+              await login({ email, password, navigation, setLoading });
             }
           }}
           loading={loading}

@@ -72,13 +72,15 @@ const signup = (
     NavigationRoute<NavigationParams>,
     NavigationParams
   >;
+  setLoading: (value: React.SetStateAction<boolean>) => void;
 }) => {
   try {
-    const { email, password, navigation } = data!;
+    const { email, password, navigation, setLoading } = data!;
     const res = await axios.post(`/signup`, { email, password });
     const token = res.data.token;
     await AsyncStorage.setItem("token", token);
     dispatch({ type: "signup", payload: token });
+    setLoading(false);
     navigation.navigate("mainFlow");
   } catch (error) {
     dispatch({ type: "registerError", payload: error.response.data.message });
@@ -93,13 +95,16 @@ const signin = (
     NavigationRoute<NavigationParams>,
     NavigationParams
   >;
+  setLoading: (value: React.SetStateAction<boolean>) => void;
 }) => {
   try {
-    const { email, password, navigation } = data!;
+    const { email, password, navigation, setLoading } = data!;
     const res = await axios.post(`/signin`, { email, password });
     const token = res.data.token;
+    setLoading(true);
     await AsyncStorage.setItem("token", token);
     dispatch({ type: "signin", payload: token });
+    setLoading(false);
     navigation.navigate("mainFlow");
   } catch (error) {
     dispatch({ type: "loginError", payload: error.response.data.message });

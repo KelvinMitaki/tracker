@@ -30,6 +30,7 @@ export interface AuthCtx {
       NavigationRoute<NavigationParams>,
       NavigationParams
     >;
+    setLoading: (value: React.SetStateAction<boolean>) => void;
   }) => Promise<void>;
   signout: () => Promise<void>;
   state: AuthState;
