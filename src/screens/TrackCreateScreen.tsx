@@ -1,9 +1,14 @@
-import { requestPermissionsAsync } from "expo-location";
+import {
+  Accuracy,
+  requestPermissionsAsync,
+  watchPositionAsync
+} from "expo-location";
 import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import { Text } from "react-native-elements";
 import { SafeAreaView } from "react-navigation";
 import Map from "../components/Map";
+// import "../_mocLocation";
 
 const TrackCreateScreen = () => {
   const [err, setError] = useState<{ [key: string]: string } | string | null>(
@@ -18,9 +23,18 @@ const TrackCreateScreen = () => {
       if (!response.granted) {
         setError("denined");
       } else {
-        setError(null);
+        err && setError(null);
+        await watchPositionAsync(
+          {
+            accuracy: Accuracy.BestForNavigation,
+            timeInterval: 1000,
+            distanceInterval: 10
+          },
+          location => {
+            console.log(location);
+          }
+        );
       }
-      console.log(response);
     } catch (error) {
       setError(error);
     }

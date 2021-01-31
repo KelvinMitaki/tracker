@@ -4,6 +4,7 @@ import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { Provider as AuthProvider } from "./src/context/AuthContext";
+import { Provider as LocationProvider } from "./src/context/LocationContext";
 import AccountScreen from "./src/screens/AccountScreen";
 import ResolveAuthScreen from "./src/screens/ResolveAuthScreen";
 import SignInScreen from "./src/screens/SignInScreen";
@@ -35,6 +36,8 @@ const App = createAppContainer(switchNavigator);
 
 export default () => (
   <AuthProvider>
-    <App />
+    <LocationProvider>
+      <App />
+    </LocationProvider>
   </AuthProvider>
 );

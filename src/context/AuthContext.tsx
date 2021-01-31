@@ -11,7 +11,7 @@ export interface AuthState {
   token: string | null;
 }
 
-interface DefaultAction {
+export interface DefaultAction {
   type: "";
   payload?: any;
 }

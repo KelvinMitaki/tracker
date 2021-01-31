@@ -1,7 +1,7 @@
-import Location, { LocationObject } from "expo-location";
+import * as Location from "expo-location";
 const tenMetresWithDegrees = 0.0001;
 
-const getLocation = (increment: number): LocationObject => {
+const getLocation = (increment: number): Location.LocationObject => {
   return {
     timestamp: 1612105560234,
     coords: {
