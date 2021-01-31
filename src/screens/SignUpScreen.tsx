@@ -28,7 +28,12 @@ export interface AuthCtx {
     >;
     setLoading: (value: React.SetStateAction<boolean>) => void;
   }) => Promise<void>;
-  signout: () => Promise<void>;
+  signout: (
+    navigation: NavigationScreenProp<
+      NavigationRoute<NavigationParams>,
+      NavigationParams
+    >
+  ) => Promise<void>;
   clearError: () => void;
   tryLocalSignin: (
     navigation: NavigationScreenProp<

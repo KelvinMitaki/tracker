@@ -40,7 +40,8 @@ type Action =
   | SigninAction
   | Error<"registerError">
   | Error<"loginError">
-  | ClearErrorAction;
+  | ClearErrorAction
+  | SignoutAction;
 
 const reducer = (state: AuthState, action: Action): AuthState => {
   switch (action.type) {
@@ -64,6 +65,8 @@ const reducer = (state: AuthState, action: Action): AuthState => {
       return { ...state, loginError: action.payload };
     case "clearError":
       return { ...state, loginError: "", registerError: "" };
+    case "signout":
+      return { ...state, token: null };
     default:
       return state;
   }
@@ -119,7 +122,16 @@ const signin = (
     dispatch({ type: "loginError", payload: error.response.data.message });
   }
 };
-const signout = (dispatch: React.Dispatch<SignoutAction>) => () => {};
+const signout = (dispatch: React.Dispatch<SignoutAction>) => async (
+  navigation: StackNavigationProp<
+    NavigationRoute<NavigationParams>,
+    NavigationParams
+  >
+) => {
+  await AsyncStorage.removeItem("token");
+  dispatch({ type: "signout" });
+  navigation.navigate("Signin");
+};
 const clearError = (dispatch: React.Dispatch<ClearErrorAction>) => () => {
   dispatch({ type: "clearError" });
 };
