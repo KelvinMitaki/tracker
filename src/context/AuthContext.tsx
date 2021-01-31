@@ -123,9 +123,23 @@ const signout = (dispatch: React.Dispatch<SignoutAction>) => () => {};
 const clearError = (dispatch: React.Dispatch<ClearErrorAction>) => () => {
   dispatch({ type: "clearError" });
 };
+const tryLocalSignin = (dispatch: React.Dispatch<SigninAction>) => async (
+  navigation: StackNavigationProp<
+    NavigationRoute<NavigationParams>,
+    NavigationParams
+  >
+) => {
+  const token = await AsyncStorage.getItem("token");
+  if (token) {
+    dispatch({ type: "signin", payload: token });
+    navigation.navigate("mainFlow");
+  } else {
+    navigation.navigate("loginFlow");
+  }
+};
 
 export const { Context, Provider } = createDataContext<AuthState>(
   reducer,
-  { signup, signin, signout, clearError },
+  { signup, signin, signout, clearError, tryLocalSignin },
   { token: null, registerError: "", loginError: "" }
 );

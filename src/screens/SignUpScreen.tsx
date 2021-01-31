@@ -30,16 +30,25 @@ export interface AuthCtx {
   }) => Promise<void>;
   signout: () => Promise<void>;
   clearError: () => void;
+  tryLocalSignin: (
+    navigation: NavigationScreenProp<
+      NavigationRoute<NavigationParams>,
+      NavigationParams
+    >
+  ) => void;
   state: AuthState;
 }
 
-const SignUpScreen: NavigationStackScreenComponent = () => {
+const SignUpScreen: NavigationStackScreenComponent = ({ navigation }) => {
   const {
     signup,
     state: { registerError },
-    clearError
+    clearError,
+    tryLocalSignin
   } = useContext(AuthContext) as AuthCtx;
-
+  useEffect(() => {
+    tryLocalSignin(navigation);
+  }, []);
   return (
     <>
       <NavigationEvents onWillBlur={() => clearError()} />
