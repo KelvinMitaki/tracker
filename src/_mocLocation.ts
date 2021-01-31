@@ -22,10 +22,10 @@ const getLocation = async (
 
 let counter = 0;
 
-setInterval(() => {
+setInterval(async () => {
   Location.EventEmitter.emit("Expo.locationChanged", {
     watchId: Location._getCurrentWatchId(),
-    location: getLocation(counter)
+    location: await getLocation(counter)
   });
   counter++;
-}, 1000);
+}, 3000);

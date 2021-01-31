@@ -43,7 +43,7 @@ const TrackCreateScreen = () => {
             distanceInterval: 10
           },
           location => {
-            // addLocation(location);
+            addLocation(location);
           }
         );
       }

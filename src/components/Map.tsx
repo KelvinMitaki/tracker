@@ -1,7 +1,9 @@
 import { Accuracy, getCurrentPositionAsync } from "expo-location";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import MapView from "react-native-maps";
+import { Context as LocationContext } from "../context/LocationContext";
+import { LocationCtx } from "../screens/TrackCreateScreen";
 
 const Map = () => {
   const [coords, setCoords] = useState<{ latitude: number; longitude: number }>(
@@ -20,6 +22,10 @@ const Map = () => {
     getLocation();
   }, []);
   const { latitude, longitude } = coords;
+  const {
+    state: { currentLocation }
+  } = useContext(LocationContext) as LocationCtx;
+  //   console.log(currentLocation);
   return (
     <MapView
       style={styles.map}
@@ -30,8 +36,7 @@ const Map = () => {
         longitudeDelta: 0.01
       }}
       region={{
-        latitude,
-        longitude,
+        ...(currentLocation?.coords || { latitude, longitude }),
         latitudeDelta: 0.01,
         longitudeDelta: 0.01
       }}
