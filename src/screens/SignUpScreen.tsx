@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { StyleSheet } from "react-native";
 import {
   NavigationEvents,
@@ -46,9 +46,7 @@ const SignUpScreen: NavigationStackScreenComponent = ({ navigation }) => {
     clearError,
     tryLocalSignin
   } = useContext(AuthContext) as AuthCtx;
-  useEffect(() => {
-    tryLocalSignin(navigation);
-  }, []);
+
   return (
     <>
       <NavigationEvents onWillBlur={() => clearError()} />
