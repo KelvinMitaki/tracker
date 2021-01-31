@@ -8,9 +8,7 @@ import { AuthCtx } from "./SignUpScreen";
 
 const AccountScreen: NavigationBottomTabScreenComponent = ({ navigation }) => {
   const { signout } = useContext(AuthContext) as AuthCtx;
-  LogBox.ignoreLogs([
-    "Your project is accessing the following APIs from a deprecated global rather than a module import: Constants (expo-constants)."
-  ]);
+
   return (
     <SafeAreaView forceInset={{ top: "always" }}>
       <Button title="Log Out" onPress={() => signout(navigation)} />
