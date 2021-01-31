@@ -13,7 +13,7 @@ import {
   Context as LocationContext,
   LocationState
 } from "../context/LocationContext";
-// import "../_mocLocation";
+import "../_mocLocation";
 
 export interface LocationCtx {
   state: LocationState;
@@ -43,8 +43,7 @@ const TrackCreateScreen = () => {
             distanceInterval: 10
           },
           location => {
-            console.log({ location });
-            addLocation(location);
+            // addLocation(location);
           }
         );
       }

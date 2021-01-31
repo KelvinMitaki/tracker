@@ -1,17 +1,21 @@
 import * as Location from "expo-location";
 const tenMetresWithDegrees = 0.0001;
 
-const getLocation = (increment: number): Location.LocationObject => {
+const getLocation = async (
+  increment: number
+): Promise<Location.LocationObject> => {
+  const location = await Location.getCurrentPositionAsync({
+    accuracy: Location.Accuracy.BestForNavigation
+  });
+  const {
+    coords: { latitude, longitude }
+  } = location;
   return {
-    timestamp: 1612105560234,
+    ...location,
     coords: {
-      accuracy: 5,
-      altitude: 5,
-      altitudeAccuracy: 5,
-      heading: increment,
-      latitude: 37.33233141 + increment * tenMetresWithDegrees,
-      longitude: -122.0312186 + increment * tenMetresWithDegrees,
-      speed: 10
+      ...location.coords,
+      latitude: latitude + increment * tenMetresWithDegrees,
+      longitude: longitude + increment * tenMetresWithDegrees
     }
   };
 };
