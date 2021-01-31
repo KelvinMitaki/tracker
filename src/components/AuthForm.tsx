@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
   view: {
     flex: 1,
     justifyContent: "center",
-    marginBottom: 150
+    marginBottom: 100
   },
   heading: {
     marginBottom: 30,
