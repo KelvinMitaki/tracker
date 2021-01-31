@@ -53,7 +53,9 @@ const TrackCreateScreen = () => {
   };
   return (
     <SafeAreaView forceInset={{ top: "always" }}>
-      <Text h2>Create A Track</Text>
+      <Text h2 style={{ alignSelf: "center" }}>
+        Create A Track
+      </Text>
       <Map />
       {err && <Text>Please enable location services</Text>}
     </SafeAreaView>
