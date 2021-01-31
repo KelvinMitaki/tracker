@@ -1,20 +1,31 @@
 import {
   Accuracy,
-  getCurrentPositionAsync,
+  LocationObject,
   requestPermissionsAsync,
   watchPositionAsync
 } from "expo-location";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import { Text } from "react-native-elements";
 import { SafeAreaView } from "react-navigation";
 import Map from "../components/Map";
+import {
+  Context as LocationContext,
+  LocationState
+} from "../context/LocationContext";
 // import "../_mocLocation";
+
+export interface LocationCtx {
+  state: LocationState;
+  record: (record: boolean) => void;
+  addLocation: (location: LocationObject) => void;
+}
 
 const TrackCreateScreen = () => {
   const [err, setError] = useState<{ [key: string]: string } | string | null>(
     null
   );
+  const { addLocation } = useContext(LocationContext) as LocationCtx;
   useEffect(() => {
     startWatching();
   }, []);
@@ -33,6 +44,7 @@ const TrackCreateScreen = () => {
           },
           location => {
             console.log({ location });
+            addLocation(location);
           }
         );
       }

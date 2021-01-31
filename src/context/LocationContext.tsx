@@ -9,12 +9,12 @@ export interface LocationState {
   recording: boolean;
 }
 
-export interface RecordAction {
+interface RecordAction {
   type: "record";
   payload: boolean;
 }
 
-export interface LocationAction {
+interface LocationAction {
   type: "addLocation";
   payload: LocationObject;
 }
@@ -25,6 +25,12 @@ const reducer = (state: LocationState, action: Action): LocationState => {
   switch (action.type) {
     case "record":
       return { ...state, recording: action.payload };
+    case "addLocation":
+      return {
+        ...state,
+        locations: [...state.locations, action.payload],
+        currentLocation: action.payload
+      };
     default:
       return state;
   }
