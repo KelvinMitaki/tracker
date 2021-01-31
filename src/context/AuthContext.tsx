@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationParams, NavigationRoute } from "react-navigation";
 import { StackNavigationProp } from "react-navigation-stack/lib/typescript/src/vendor/types";
+import { NavigationTabProp } from "react-navigation-tabs";
 import axios from "../axios/axios";
 import createDataContext from "./createDataContext";
 
@@ -123,7 +124,7 @@ const signin = (
   }
 };
 const signout = (dispatch: React.Dispatch<SignoutAction>) => async (
-  navigation: StackNavigationProp<
+  navigation: NavigationTabProp<
     NavigationRoute<NavigationParams>,
     NavigationParams
   >

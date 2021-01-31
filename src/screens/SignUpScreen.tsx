@@ -7,6 +7,8 @@ import {
   NavigationScreenProp
 } from "react-navigation";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
+import { StackNavigationProp } from "react-navigation-stack/lib/typescript/src/vendor/types";
+import { NavigationTabProp } from "react-navigation-tabs";
 import AuthForm from "../components/AuthForm";
 import { Context as AuthContext, AuthState } from "../context/AuthContext";
 
@@ -29,7 +31,7 @@ export interface AuthCtx {
     setLoading: (value: React.SetStateAction<boolean>) => void;
   }) => Promise<void>;
   signout: (
-    navigation: NavigationScreenProp<
+    navigation: NavigationTabProp<
       NavigationRoute<NavigationParams>,
       NavigationParams
     >
