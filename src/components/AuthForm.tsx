@@ -8,7 +8,6 @@ import {
   NavigationScreenProp,
   withNavigation
 } from "react-navigation";
-import { StackNavigationProp } from "react-navigation-stack/lib/typescript/src/vendor/types";
 import Spacer from "./Spacer";
 
 interface Props {
@@ -63,7 +62,7 @@ const AuthForm: React.FC<Props & NavigationInjectedProps> = props => {
         autoCorrect={false}
         secureTextEntry
         errorMessage={errorMessage}
-        errorStyle={{ fontSize: 17 }}
+        errorStyle={{ fontSize: 17, textTransform: "capitalize" }}
       />
       <Spacer>
         <Button

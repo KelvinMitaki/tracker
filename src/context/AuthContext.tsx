@@ -25,6 +25,9 @@ export interface SigninAction {
 export interface SignoutAction {
   type: "signout";
 }
+export interface ClearErrorAction {
+  type: "clearError";
+}
 
 export interface Error<T> {
   type: T;
@@ -36,7 +39,8 @@ type Action =
   | SignupAction
   | SigninAction
   | Error<"registerError">
-  | Error<"loginError">;
+  | Error<"loginError">
+  | ClearErrorAction;
 
 const reducer = (state: AuthState, action: Action): AuthState => {
   switch (action.type) {
@@ -58,6 +62,8 @@ const reducer = (state: AuthState, action: Action): AuthState => {
       return { ...state, registerError: action.payload };
     case "loginError":
       return { ...state, loginError: action.payload };
+    case "clearError":
+      return { ...state, loginError: "", registerError: "" };
     default:
       return state;
   }
@@ -114,9 +120,12 @@ const signin = (
   }
 };
 const signout = (dispatch: React.Dispatch<SignoutAction>) => () => {};
+const clearError = (dispatch: React.Dispatch<ClearErrorAction>) => () => {
+  dispatch({ type: "clearError" });
+};
 
 export const { Context, Provider } = createDataContext<AuthState>(
   reducer,
-  { signup, signin, signout },
+  { signup, signin, signout, clearError },
   { token: null, registerError: "", loginError: "" }
 );
