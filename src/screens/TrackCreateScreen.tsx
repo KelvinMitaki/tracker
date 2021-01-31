@@ -1,5 +1,6 @@
 import {
   Accuracy,
+  getCurrentPositionAsync,
   requestPermissionsAsync,
   watchPositionAsync
 } from "expo-location";
@@ -31,7 +32,7 @@ const TrackCreateScreen = () => {
             distanceInterval: 10
           },
           location => {
-            console.log(location);
+            console.log({ location });
           }
         );
       }
