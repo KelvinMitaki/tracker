@@ -3,6 +3,11 @@ import { LocationObject } from "expo-location";
 import { DefaultAction } from "./AuthContext";
 import createDataContext from "./createDataContext";
 import axios from "../axios/axios";
+import {
+  NavigationParams,
+  NavigationRoute,
+  NavigationScreenProp
+} from "react-navigation";
 
 export interface TrackState {
   tracks: Track[] | null;
@@ -46,11 +51,16 @@ const fetchTracks = (dispatch: React.Dispatch<FetchTracks>) => async () => {
 };
 const createTrack = (dispatch: React.Dispatch<CreateTrack>) => async (
   track: LocationObject[],
-  name: string
+  name: string,
+  navigation: NavigationScreenProp<
+    NavigationRoute<NavigationParams>,
+    NavigationParams
+  >
 ) => {
   try {
     const { data } = await axios.post("/tracks", { locations: track, name });
     dispatch({ type: "createTrack", payload: data });
+    navigation.navigate("TrackList");
   } catch (error) {
     console.log(error);
   }

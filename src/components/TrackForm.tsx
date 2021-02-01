@@ -1,12 +1,19 @@
 import React, { useContext, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Input } from "react-native-elements";
+import {
+  NavigationInjectedProps,
+  NavigationParams,
+  withNavigation
+} from "react-navigation";
 import { Context as LocationContext } from "../context/LocationContext";
 import useSaveTracks from "../hooks/useSaveTracks";
 import { LocationCtx } from "../screens/TrackCreateScreen";
 import Spacer from "./Spacer";
 
-const TrackForm = () => {
+const TrackForm: React.FC<NavigationInjectedProps<NavigationParams>> = ({
+  navigation
+}) => {
   const [name, setName] = useState<string>("");
   const {
     state: { recording, locations },
@@ -40,7 +47,7 @@ const TrackForm = () => {
             buttonStyle={{ marginTop: 20 }}
             onPress={async () => {
               setLoading(true);
-              await saveTrack(name);
+              await saveTrack(name, navigation);
               setLoading(false);
             }}
             loading={loading}
@@ -52,6 +59,6 @@ const TrackForm = () => {
   );
 };
 
-export default TrackForm;
+export default withNavigation(TrackForm);
 
 const styles = StyleSheet.create({});
