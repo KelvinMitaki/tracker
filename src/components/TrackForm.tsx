@@ -31,6 +31,11 @@ const TrackForm = () => {
           <Button title="Recording..." onPress={() => record(false)} />
         )}
       </Spacer>
+      <Spacer>
+        {!recording && locations.length !== 0 && (
+          <Button title="Save" buttonStyle={{ marginTop: 20 }} />
+        )}
+      </Spacer>
     </View>
   );
 };
