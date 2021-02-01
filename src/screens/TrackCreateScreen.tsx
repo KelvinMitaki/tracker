@@ -34,7 +34,7 @@ const TrackCreateScreen = () => {
       </Text>
       <Map />
       <NavigationEvents
-        onWillBlur={() => subscriber && subscriber.remove()}
+        onWillBlur={() => !recording && subscriber && subscriber.remove()}
         onDidFocus={() => startWatching()}
       />
       {err && <Text>Please enable location services</Text>}

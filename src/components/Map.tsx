@@ -1,7 +1,7 @@
 import { Accuracy, getCurrentPositionAsync } from "expo-location";
 import React, { useContext, useEffect, useState } from "react";
 import { ActivityIndicator, Platform, StyleSheet, View } from "react-native";
-import MapView, { Circle } from "react-native-maps";
+import MapView, { Circle, Polyline } from "react-native-maps";
 import { Context as LocationContext } from "../context/LocationContext";
 import { LocationCtx } from "../screens/TrackCreateScreen";
 
@@ -23,7 +23,7 @@ const Map = () => {
   }, []);
   const { latitude, longitude } = coords;
   const {
-    state: { currentLocation }
+    state: { currentLocation, locations }
   } = useContext(LocationContext) as LocationCtx;
   //   console.log(currentLocation);
   if (!currentLocation) {
@@ -58,6 +58,7 @@ const Map = () => {
         strokeColor="rgba(158,158,255,1)"
         fillColor="rgba(158,158,255,.3)"
       />
+      <Polyline coordinates={locations.map(lo => lo.coords)} />
     </MapView>
   );
 };
