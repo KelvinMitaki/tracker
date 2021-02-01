@@ -38,7 +38,11 @@ const TrackListScreen: NavigationStackScreenComponent = ({ navigation }) => {
         data={tracks}
         keyExtractor={item => item._id!}
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => navigation.navigate("TrackDetail")}>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("TrackDetail", { _id: item._id })
+            }
+          >
             <ListItem bottomDivider>
               <ListItem.Content>
                 <ListItem.Title>{item.name}</ListItem.Title>
