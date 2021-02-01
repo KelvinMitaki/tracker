@@ -19,7 +19,7 @@ import {
 import { TrackState } from "../context/TrackContext";
 import useLocation from "../hooks/useLocation";
 import { Ionicons } from "@expo/vector-icons";
-import "../_mocLocation";
+// import "../_mocLocation";
 
 export interface LocationCtx {
   state: LocationState;
