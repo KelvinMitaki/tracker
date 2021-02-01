@@ -13,7 +13,8 @@ interface FetchTracks {
   payload: Track[];
 }
 
-export interface Track extends LocationObject {
+export interface Track {
+  locations: LocationObject[];
   name: string;
 }
 
@@ -28,6 +29,8 @@ const reducer = (state: TrackState, action: Action): TrackState => {
   switch (action.type) {
     case "fetchTracks":
       return { ...state, tracks: action.payload };
+    case "createTrack":
+      return { ...state, tracks: [...(state.tracks || []), action.payload] };
     default:
       return state;
   }
@@ -42,8 +45,16 @@ const fetchTracks = (dispatch: React.Dispatch<FetchTracks>) => async () => {
   }
 };
 const createTrack = (dispatch: React.Dispatch<CreateTrack>) => async (
-  track: Track
-) => {};
+  track: LocationObject[],
+  name: string
+) => {
+  try {
+    const { data } = await axios.post("/tracks", { locations: track, name });
+    dispatch({ type: "createTrack", payload: data });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const { Provider, Context } = createDataContext<TrackState>(
   reducer,
