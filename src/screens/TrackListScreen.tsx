@@ -4,11 +4,11 @@ import {
   Button,
   Platform,
   StyleSheet,
-  Text,
   View
 } from "react-native";
-import { ListItem } from "react-native-elements";
+import { ListItem, Text } from "react-native-elements";
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
+import { SafeAreaView } from "react-navigation";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { Context as TrackContext } from "../context/TrackContext";
 import { TrackCtx } from "./TrackCreateScreen";
@@ -33,7 +33,7 @@ const TrackListScreen: NavigationStackScreenComponent = ({ navigation }) => {
     );
   }
   return (
-    <View>
+    <SafeAreaView>
       <FlatList
         data={tracks}
         keyExtractor={item => item._id!}
@@ -52,8 +52,13 @@ const TrackListScreen: NavigationStackScreenComponent = ({ navigation }) => {
           </TouchableOpacity>
         )}
       />
-    </View>
+    </SafeAreaView>
   );
+};
+
+TrackListScreen.navigationOptions = {
+  title: "Tracks",
+  headerTitleAlign: "center"
 };
 
 export default TrackListScreen;

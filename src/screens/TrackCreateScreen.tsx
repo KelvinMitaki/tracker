@@ -9,6 +9,7 @@ import {
   NavigationScreenProp,
   SafeAreaView
 } from "react-navigation";
+import { NavigationBottomTabScreenComponent } from "react-navigation-tabs";
 import Map from "../components/Map";
 import TrackForm from "../components/TrackForm";
 import {
@@ -17,6 +18,7 @@ import {
 } from "../context/LocationContext";
 import { TrackState } from "../context/TrackContext";
 import useLocation from "../hooks/useLocation";
+import { Ionicons } from "@expo/vector-icons";
 import "../_mocLocation";
 
 export interface LocationCtx {
@@ -39,7 +41,7 @@ export interface TrackCtx {
   fetchTracks: () => Promise<void>;
 }
 
-const TrackCreateScreen = () => {
+const TrackCreateScreen: NavigationBottomTabScreenComponent = () => {
   const {
     addLocation,
     state: { recording }
@@ -62,6 +64,11 @@ const TrackCreateScreen = () => {
       <TrackForm />
     </SafeAreaView>
   );
+};
+
+TrackCreateScreen.navigationOptions = {
+  title: "Add Track",
+  tabBarIcon: () => <Ionicons name="add" size={30} />
 };
 
 export default TrackCreateScreen;
