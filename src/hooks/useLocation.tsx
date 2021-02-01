@@ -10,7 +10,8 @@ type Return = [
   string | { [key: string]: string } | null | null,
   {
     remove(): void;
-  } | null
+  } | null,
+  () => Promise<void>
 ];
 
 const useLocation = (callback: (location: LocationObject) => void): Return => {
@@ -44,7 +45,7 @@ const useLocation = (callback: (location: LocationObject) => void): Return => {
       setError(error);
     }
   };
-  return [err, subscriber];
+  return [err, subscriber, startWatching];
 };
 
 export default useLocation;

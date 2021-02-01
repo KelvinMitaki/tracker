@@ -19,14 +19,17 @@ export interface LocationCtx {
 
 const TrackCreateScreen = () => {
   const { addLocation } = useContext(LocationContext) as LocationCtx;
-  const [err, subscriber] = useLocation(addLocation);
+  const [err, subscriber, startWatching] = useLocation(addLocation);
   return (
     <SafeAreaView forceInset={{ top: "always" }}>
       <Text h2 style={{ alignSelf: "center" }}>
         Create A Track
       </Text>
       <Map />
-      <NavigationEvents onWillBlur={() => subscriber && subscriber.remove()} />
+      <NavigationEvents
+        onWillBlur={() => subscriber && subscriber.remove()}
+        onDidFocus={() => startWatching()}
+      />
       {err && <Text>Please enable location services</Text>}
     </SafeAreaView>
   );
