@@ -47,6 +47,7 @@ const TrackForm: React.FC<NavigationInjectedProps<NavigationParams>> = ({
             buttonStyle={{ marginTop: 20 }}
             onPress={async () => {
               setLoading(true);
+              setName("");
               await saveTrack(name, navigation);
               setLoading(false);
             }}
