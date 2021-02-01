@@ -1,6 +1,6 @@
 import { Accuracy, getCurrentPositionAsync } from "expo-location";
 import React, { useContext, useEffect, useState } from "react";
-import { StyleSheet } from "react-native";
+import { ActivityIndicator, Platform, StyleSheet, View } from "react-native";
 import MapView, { Circle } from "react-native-maps";
 import { Context as LocationContext } from "../context/LocationContext";
 import { LocationCtx } from "../screens/TrackCreateScreen";
@@ -26,6 +26,17 @@ const Map = () => {
     state: { currentLocation }
   } = useContext(LocationContext) as LocationCtx;
   //   console.log(currentLocation);
+  if (!currentLocation) {
+    return (
+      <View style={{ height: 300, justifyContent: "center" }}>
+        {Platform.OS === "android" ? (
+          <ActivityIndicator size="large" color="blue" />
+        ) : (
+          <ActivityIndicator size="large" />
+        )}
+      </View>
+    );
+  }
   return (
     <MapView
       style={styles.map}

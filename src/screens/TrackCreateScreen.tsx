@@ -19,7 +19,10 @@ export interface LocationCtx {
 }
 
 const TrackCreateScreen = () => {
-  const { addLocation } = useContext(LocationContext) as LocationCtx;
+  const {
+    addLocation,
+    state: { currentLocation }
+  } = useContext(LocationContext) as LocationCtx;
   const [err, subscriber, startWatching] = useLocation(addLocation);
   return (
     <SafeAreaView forceInset={{ top: "always" }}>

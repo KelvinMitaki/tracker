@@ -6,9 +6,9 @@ import Spacer from "./Spacer";
 const TrackForm = () => {
   return (
     <View>
-      <Input placeholder="Track Name" />
+      <Input style={{ marginTop: 30 }} placeholder="Track Name" />
       <Spacer>
-        <Button title="Record" />
+        <Button title="Start Recording" />
       </Spacer>
     </View>
   );
