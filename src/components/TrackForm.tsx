@@ -17,7 +17,8 @@ const TrackForm: React.FC<NavigationInjectedProps<NavigationParams>> = ({
   const [name, setName] = useState<string>("");
   const {
     state: { recording, locations },
-    record
+    record,
+    resetLocations
   } = useContext(LocationContext) as LocationCtx;
   const [saveTrack] = useSaveTracks();
   const [loading, setLoading] = useState<boolean>(false);
@@ -47,8 +48,9 @@ const TrackForm: React.FC<NavigationInjectedProps<NavigationParams>> = ({
             buttonStyle={{ marginTop: 20 }}
             onPress={async () => {
               setLoading(true);
-              setName("");
               await saveTrack(name, navigation);
+              resetLocations();
+              setName("");
               setLoading(false);
             }}
             loading={loading}

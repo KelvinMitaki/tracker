@@ -23,6 +23,7 @@ export interface LocationCtx {
   state: LocationState;
   record: (record: boolean) => void;
   addLocation: (location: LocationObject, recording: boolean) => void;
+  resetLocations: () => void;
 }
 
 export interface TrackCtx {
