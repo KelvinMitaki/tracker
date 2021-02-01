@@ -13,6 +13,7 @@ import {
   Context as LocationContext,
   LocationState
 } from "../context/LocationContext";
+import useLocation from "../hooks/useLocation";
 import "../_mocLocation";
 
 export interface LocationCtx {
@@ -22,35 +23,8 @@ export interface LocationCtx {
 }
 
 const TrackCreateScreen = () => {
-  const [err, setError] = useState<{ [key: string]: string } | string | null>(
-    null
-  );
   const { addLocation } = useContext(LocationContext) as LocationCtx;
-  useEffect(() => {
-    startWatching();
-  }, []);
-  const startWatching = async () => {
-    try {
-      const response = await requestPermissionsAsync();
-      if (!response.granted) {
-        setError("denined");
-      } else {
-        err && setError(null);
-        await watchPositionAsync(
-          {
-            accuracy: Accuracy.BestForNavigation,
-            timeInterval: 1000,
-            distanceInterval: 10
-          },
-          location => {
-            addLocation(location);
-          }
-        );
-      }
-    } catch (error) {
-      setError(error);
-    }
-  };
+  const [err] = useLocation({ addLocation });
   return (
     <SafeAreaView forceInset={{ top: "always" }}>
       <Text h2 style={{ alignSelf: "center" }}>
