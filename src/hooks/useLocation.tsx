@@ -4,18 +4,22 @@ import {
   requestPermissionsAsync,
   watchPositionAsync
 } from "expo-location";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-interface Props {
-  addLocation: (location: LocationObject) => void;
-}
+type Return = [
+  string | { [key: string]: string } | null | null,
+  {
+    remove(): void;
+  } | null
+];
 
-const useLocation = ({
-  addLocation
-}: Props): (string | { [key: string]: string } | null)[] => {
+const useLocation = (callback: (location: LocationObject) => void): Return => {
   const [err, setError] = useState<{ [key: string]: string } | string | null>(
     null
   );
+  const [subscriber, setSubscriber] = useState<{
+    remove(): void;
+  } | null>(null);
   useEffect(() => {
     startWatching();
   }, []);
@@ -26,22 +30,21 @@ const useLocation = ({
         setError("denined");
       } else {
         err && setError(null);
-        await watchPositionAsync(
+        const subscriber = await watchPositionAsync(
           {
             accuracy: Accuracy.BestForNavigation,
             timeInterval: 1000,
             distanceInterval: 10
           },
-          location => {
-            addLocation(location);
-          }
+          callback
         );
+        setSubscriber(subscriber);
       }
     } catch (error) {
       setError(error);
     }
   };
-  return [err];
+  return [err, subscriber];
 };
 
 export default useLocation;
