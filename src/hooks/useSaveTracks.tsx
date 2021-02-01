@@ -21,7 +21,7 @@ export default () => {
     >
   ) => {
     if (name && locations.length) {
-      await createTrack(locations, name);
+      await createTrack(locations, name, navigation);
     }
   };
   return [saveTrack];

@@ -2,7 +2,13 @@ import { LocationObject } from "expo-location";
 import React, { useContext } from "react";
 import { StyleSheet } from "react-native";
 import { Text } from "react-native-elements";
-import { NavigationEvents, SafeAreaView } from "react-navigation";
+import {
+  NavigationEvents,
+  NavigationParams,
+  NavigationRoute,
+  NavigationScreenProp,
+  SafeAreaView
+} from "react-navigation";
 import Map from "../components/Map";
 import TrackForm from "../components/TrackForm";
 import {
@@ -21,7 +27,14 @@ export interface LocationCtx {
 
 export interface TrackCtx {
   state: TrackState;
-  createTrack: (track: LocationObject[], name: string) => Promise<void>;
+  createTrack: (
+    track: LocationObject[],
+    name: string,
+    navigation: NavigationScreenProp<
+      NavigationRoute<NavigationParams>,
+      NavigationParams
+    >
+  ) => Promise<void>;
   fetchTracks: () => Promise<void>;
 }
 
