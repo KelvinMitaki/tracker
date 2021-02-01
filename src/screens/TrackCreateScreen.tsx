@@ -15,15 +15,18 @@ import "../_mocLocation";
 export interface LocationCtx {
   state: LocationState;
   record: (record: boolean) => void;
-  addLocation: (location: LocationObject) => void;
+  addLocation: (location: LocationObject, recording: boolean) => void;
 }
 
 const TrackCreateScreen = () => {
   const {
     addLocation,
-    state: { currentLocation }
+    state: { recording }
   } = useContext(LocationContext) as LocationCtx;
-  const [err, subscriber, startWatching] = useLocation(addLocation);
+  const [err, subscriber, startWatching] = useLocation(
+    location => addLocation(location, recording),
+    recording
+  );
   return (
     <SafeAreaView forceInset={{ top: "always" }}>
       <Text h2 style={{ alignSelf: "center" }}>

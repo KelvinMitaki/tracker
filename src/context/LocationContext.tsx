@@ -18,8 +18,16 @@ interface LocationAction {
   type: "addLocation";
   payload: LocationObject;
 }
+interface CurrentLocationAction {
+  type: "addCurrentLocation";
+  payload: LocationObject;
+}
 
-type Action = DefaultAction | RecordAction | LocationAction;
+type Action =
+  | DefaultAction
+  | RecordAction
+  | LocationAction
+  | CurrentLocationAction;
 
 const reducer = (state: LocationState, action: Action): LocationState => {
   switch (action.type) {
@@ -28,9 +36,10 @@ const reducer = (state: LocationState, action: Action): LocationState => {
     case "addLocation":
       return {
         ...state,
-        locations: [...state.locations, action.payload],
-        currentLocation: action.payload
+        locations: [...state.locations, action.payload]
       };
+    case "addCurrentLocation":
+      return { ...state, currentLocation: action.payload };
     default:
       return state;
   }
@@ -41,10 +50,13 @@ const record = (dispatch: React.Dispatch<RecordAction>) => (
 ) => {
   dispatch({ type: "record", payload: record });
 };
-const addLocation = (dispatch: React.Dispatch<LocationAction>) => (
-  location: LocationObject
-) => {
-  dispatch({ type: "addLocation", payload: location });
+const addLocation = (
+  dispatch: React.Dispatch<LocationAction | CurrentLocationAction>
+) => (location: LocationObject, recording: boolean) => {
+  dispatch({ type: "addCurrentLocation", payload: location });
+  if (recording) {
+    dispatch({ type: "addLocation", payload: location });
+  }
 };
 
 export const { Context, Provider } = createDataContext<LocationState>(

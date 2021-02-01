@@ -14,7 +14,10 @@ type Return = [
   () => Promise<void>
 ];
 
-const useLocation = (callback: (location: LocationObject) => void): Return => {
+const useLocation = (
+  callback: (location: LocationObject) => void,
+  recording: boolean
+): Return => {
   const [err, setError] = useState<{ [key: string]: string } | string | null>(
     null
   );
@@ -23,7 +26,7 @@ const useLocation = (callback: (location: LocationObject) => void): Return => {
   } | null>(null);
   useEffect(() => {
     startWatching();
-  }, []);
+  }, [recording]);
   const startWatching = async () => {
     try {
       const response = await requestPermissionsAsync();

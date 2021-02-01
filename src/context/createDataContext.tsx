@@ -4,7 +4,7 @@ interface DataContext {
   createDataContext: <T>(
     reducer: React.Reducer<any, any>,
     actions: {
-      [key: string]: (dispatch: React.Dispatch<any>) => (data: any) => void;
+      [key: string]: (dispatch: React.Dispatch<any>) => (...data: any) => void;
     },
     initialState: T
   ) => {
