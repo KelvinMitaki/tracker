@@ -4,6 +4,7 @@ import { StyleSheet } from "react-native";
 import { Text } from "react-native-elements";
 import { NavigationEvents, SafeAreaView } from "react-navigation";
 import Map from "../components/Map";
+import TrackForm from "../components/TrackForm";
 import {
   Context as LocationContext,
   LocationState
@@ -31,6 +32,7 @@ const TrackCreateScreen = () => {
         onDidFocus={() => startWatching()}
       />
       {err && <Text>Please enable location services</Text>}
+      <TrackForm />
     </SafeAreaView>
   );
 };
