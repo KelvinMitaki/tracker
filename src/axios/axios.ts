@@ -13,9 +13,7 @@ instance.interceptors.request.use(
     }
     return config;
   },
-  err => {
-    return Promise.reject(err);
-  }
+  err => Promise.reject(err)
 );
 
 export default instance;

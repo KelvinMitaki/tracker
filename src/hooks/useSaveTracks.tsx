@@ -8,9 +8,9 @@ export default () => {
     state: { locations }
   } = useContext(LocationContext) as LocationCtx;
   const { createTrack } = useContext(TrackContext) as TrackCtx;
-  const saveTrack = (name: string) => {
+  const saveTrack = async (name: string) => {
     if (name && locations.length) {
-      createTrack(locations, name);
+      await createTrack(locations, name);
     }
   };
   return [saveTrack];

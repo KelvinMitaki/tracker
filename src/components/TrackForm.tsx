@@ -13,6 +13,7 @@ const TrackForm = () => {
     record
   } = useContext(LocationContext) as LocationCtx;
   const [saveTrack] = useSaveTracks();
+  const [loading, setLoading] = useState<boolean>(false);
   return (
     <View>
       <Input
@@ -33,11 +34,17 @@ const TrackForm = () => {
         )}
       </Spacer>
       <Spacer>
-        {!recording && locations.length && name.trim().length && (
+        {!recording && locations.length !== 0 && name.trim().length !== 0 && (
           <Button
             title="Save"
             buttonStyle={{ marginTop: 20 }}
-            onPress={() => saveTrack(name)}
+            onPress={async () => {
+              setLoading(true);
+              await saveTrack(name);
+              setLoading(false);
+            }}
+            loading={loading}
+            disabled={loading}
           />
         )}
       </Spacer>
