@@ -9,6 +9,7 @@ import {
   Context as LocationContext,
   LocationState
 } from "../context/LocationContext";
+import { TrackState } from "../context/TrackContext";
 import useLocation from "../hooks/useLocation";
 import "../_mocLocation";
 
@@ -16,6 +17,12 @@ export interface LocationCtx {
   state: LocationState;
   record: (record: boolean) => void;
   addLocation: (location: LocationObject, recording: boolean) => void;
+}
+
+export interface TrackCtx {
+  state: TrackState;
+  createTrack: (track: LocationObject[], name: string) => Promise<void>;
+  fetchTracks: () => Promise<void>;
 }
 
 const TrackCreateScreen = () => {
