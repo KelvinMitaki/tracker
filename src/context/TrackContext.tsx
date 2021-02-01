@@ -21,6 +21,7 @@ interface FetchTracks {
 export interface Track {
   locations: LocationObject[];
   name: string;
+  _id?: string;
 }
 
 interface CreateTrack {

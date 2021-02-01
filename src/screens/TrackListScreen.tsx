@@ -7,6 +7,8 @@ import {
   Text,
   View
 } from "react-native";
+import { ListItem } from "react-native-elements";
+import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import { NavigationStackScreenComponent } from "react-navigation-stack";
 import { Context as TrackContext } from "../context/TrackContext";
 import { TrackCtx } from "./TrackCreateScreen";
@@ -32,10 +34,19 @@ const TrackListScreen: NavigationStackScreenComponent = ({ navigation }) => {
   }
   return (
     <View>
-      <Text>TrackListScreen TrackListScreen</Text>
-      <Button
-        onPress={() => navigation.navigate("TrackDetail")}
-        title="Go to track detail"
+      <FlatList
+        data={tracks}
+        keyExtractor={item => item._id!}
+        renderItem={({ item }) => (
+          <TouchableOpacity onPress={() => navigation.navigate("TrackDetail")}>
+            <ListItem bottomDivider>
+              <ListItem.Content>
+                <ListItem.Title>{item.name}</ListItem.Title>
+              </ListItem.Content>
+              <ListItem.Chevron />
+            </ListItem>
+          </TouchableOpacity>
+        )}
       />
     </View>
   );
